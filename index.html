@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Welcome to AngularJS</title>
+		<script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.js'></script>
+		<script src='./myController.js'>
+			
+		</script>
+	</head>
+	<body>
+        <h1>Hello, World.</h1>
+        <div ng-app='myApp'>
+            <div ng-controller='MyController'>
+                <select ng-model="selectedKey1">
+                    <option ng-repeat="(key, val) in data" value={{key}}>
+                        {{key}}
+                    </option>
+                </select>
+                <select ng-model="selectedKey2">
+                    <option ng-repeat="(key, val) in selectedVal1" value={{key}}>
+                        {{key}}
+                    </option>
+                </select>
+                <select ng-model="selectedKey3">
+                    <option ng-repeat="(key, val) in selectedVal2" value={{key}}>
+                        {{key}}
+                    </option>
+                </select>
+                <select ng-model="selectedVal4">
+                    <option ng-repeat="val in selectedVal3" value={{val}}>
+                        {{val}}
+                    </option>
+                </select>
+
+                <table>
+                    <thead>
+                        <th>Level1</th>
+                        <th>Level2</th>
+                        <th>Level3</th>
+                        <th>Level4</th>
+                        <th>Description</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="row in tableData">
+                            <td>
+                                {{row.l1}}
+                            </td>
+                            <td>
+                                {{row.l2}}
+                            </td>
+                            <td>
+                                {{row.l3}}
+                            </td>
+                            <td>
+                                {{row.l4}}
+                            </td>  
+                            <td>
+                                {{row.desc}}
+                            </td>                        
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+	</body>
+</html>
