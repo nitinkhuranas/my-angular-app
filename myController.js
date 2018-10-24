@@ -11,8 +11,8 @@ app.service('Data', function(){
                 "c2": ["d24", "d27", "d28","d29"],
                 "c3": ["d34", "d37", "d38","d32"]
             },
-            // "b3": null,
-            // "b4": {}
+            "b3": null,
+            "b4": null,
         },
         "a2": {
             "b10": {
@@ -26,27 +26,50 @@ app.service('Data', function(){
             },
             "b14": {
                 "c14": ["d144", "d147", "d148","d142"],
-                "c15": []
+                "c15": null,
+            }
+        },
+        "a10": {
+            "b1": {
+                "c1":["d1"]
             }
         }
     };
 
+    var getObj = function(l1,l2,l3,l4){
+        return  {
+            "l1": l1,
+            "l2": l2,
+            "l3": l3,
+            "l4": l4,
+            "desc": l1 + ", " + l2 + ", " + l3 + ", " + l4,
+        };
+    }
+
     var getParsedTableData = function(){
         var output = [];
         for(var l1 in data){
-            for(var l2 in data[l1]){
-                for(var l3 in data[l1][l2]){
-                    for(var l4 in data[l1][l2][l3]){
-                        var obj = {
-                            "l1": l1,
-                            "l2": l2,
-                            "l3": l3,
-                            "l4": data[l1][l2][l3][l4],
-                            "desc": l1 + ", " + l2 + ", " + l3 + ", " + data[l1][l2][l3][l4],
+            if(data[l1]){
+                for(var l2 in data[l1]){
+                    if(data[l1][l2]){
+                        for(var l3 in data[l1][l2]){
+                            if(data[l1][l2][l3]){
+                                for(var l4 in data[l1][l2][l3]){
+                                    output.push(getObj(l1, l2, l3, data[l1][l2][l3][l4]));
+                                }
+                            }
+                            else{
+                                output.push(getObj(l1, l2, l3, ""));
+                            }
                         }
-                        output.push(obj);
+                    }
+                    else{
+                        output.push(getObj(l1, l2, "", ""));
                     }
                 }
+            }
+            else {
+                output.push(getObj(l1, "", "", ""));
             }
         }
         return output;
@@ -61,24 +84,31 @@ app.service('Data', function(){
 })
 
 app.controller('MyController', function($scope, Data) {
-    $scope.data = Data.getData();;
-    $scope.selectedVal4 = '';
+    $scope.data = Data.getData();
+    $scope.selectedKey1 = '';
+    $scope.selectedKey2 = '';
+    $scope.selectedKey3 = '';
+    $scope.selectedKey4 = '';
+
 
     $scope.tableData = Data.getParsedTableData();
 
     $scope.$watch('selectedKey1', function(key) {
         $scope.selectedVal1 = $scope.data[key] || {};
-        console.log("1",$scope.selectedVal1)
+        $scope.selectedKey2 = '';
+        $scope.selectedKey3 = '';
+        $scope.selectedKey4 = '';
     });
 
     $scope.$watch('selectedKey2', function(key) {
         $scope.selectedVal2 = $scope.selectedVal1[key] || {};
-        console.log("2",$scope.selectedVal2)
+        $scope.selectedKey3 = '';
+        $scope.selectedKey4 = '';
     });
 
     $scope.$watch('selectedKey3', function(key) {
         $scope.selectedVal3 = $scope.selectedVal2[key] || [];
-        console.log("3", $scope.selectedVal3)
+        $scope.selectedKey4 = '';
     });
 
 });

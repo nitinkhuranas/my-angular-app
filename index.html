@@ -8,25 +8,28 @@
 		</script>
 	</head>
 	<body>
-        <h1>Hello, World.</h1>
         <div ng-app='myApp'>
             <div ng-controller='MyController'>
                 <select ng-model="selectedKey1">
+                    <option value=""></option>
                     <option ng-repeat="(key, val) in data" value={{key}}>
                         {{key}}
                     </option>
                 </select>
-                <select ng-model="selectedKey2">
+                <select ng-model="selectedKey2" ng-hide=!selectedKey1>
+                    <option value=""></option>
                     <option ng-repeat="(key, val) in selectedVal1" value={{key}}>
                         {{key}}
                     </option>
                 </select>
-                <select ng-model="selectedKey3">
-                    <option ng-repeat="(key, val) in selectedVal2" value={{key}}>
+                <select ng-model="selectedKey3" ng-hide=!selectedKey2>
+                        <option value=""></option>
+                        <option ng-repeat="(key, val) in selectedVal2" value={{key}}>
                         {{key}}
                     </option>
                 </select>
-                <select ng-model="selectedVal4">
+                <select ng-model="selectedKey4" ng-hide=!selectedKey3>
+                    <option value=""></option>
                     <option ng-repeat="val in selectedVal3" value={{val}}>
                         {{val}}
                     </option>
@@ -41,7 +44,9 @@
                         <th>Description</th>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="row in tableData">
+                        <tr
+                            ng-repeat="row in tableData | filter : {l1: selectedKey1} |  filter : {l2: selectedKey2}  |  filter : {l3: selectedKey3} | filter : {l4: selectedKey4}"
+                        >
                             <td>
                                 {{row.l1}}
                             </td>
